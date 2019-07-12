@@ -1,0 +1,19 @@
+{
+    "name": "ekki-project",
+    "version": "1.0.0",
+    "scripts": {
+        "client": "cd client && npm start",
+        "server": "nodemon app.js",
+        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "md5": "^2.2.1",
+        "mysql": "^2.17.1"
+    },
+    "devDependencies": {
+        "concurrently": "^3.5.0",
+        "nodemon": "^1.19.1"
+    }
+}
