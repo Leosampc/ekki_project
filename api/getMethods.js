@@ -42,3 +42,13 @@ getMethods.transferenciasByUsuarioId = (req, res) => {
         res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
     })
 }
+
+getMethods.transferenciasByContaId = (req, res) => {
+    let order_limit = (req.params.order && req.params.limit) ? `ORDER BY t.id ${req.params.order} LIMIT ${req.params.limit}` : ""
+
+    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? ${order_limit}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id do usuario
+        if (err) return console.log(err)
+        console.log(result)
+        res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
+    })
+}

@@ -18,6 +18,15 @@ router.get('/usuario/:id/:token', (req, res) => {//rota para retornar um usuario
         
 })
 
+router.get('/conta/:usuario_id/:token', (req, res) => {//rota para retornar as contas de um usuario especifico
+    if (req.params.token && req.params.token == token) {//caso o token seja valido
+        getMethods.contasByUsuarioId(req, res) //chama o metodo get "conta" e envia o req e res por parametro
+    } else {//caso seja invalido retornará o objeto de erro
+        res.json(error)
+    }
+
+})
+
 router.get('/favorecidos/:usuario_id/:token', (req, res) => {//rota para retornar os favorecidos de um usuario especifico
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.favorecidos(req, res)//chama o metodo get "favorecidos" e envia o req e res por parametro
@@ -34,6 +43,33 @@ router.get('/transferencias/:token', (req, res) => {//rota para retornar todas a
         res.json(error)
     }
         
+})
+
+router.get('/transferencias/:usuario_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+    if (req.params.token && req.params.token == token) {//caso o token seja valido
+        getMethods.transferenciasByUsuarioId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
+    } else {//caso seja invalido retornará o objeto de erro
+        res.json(error)
+    }
+
+})
+
+router.get('/transferencias/:conta_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+    if (req.params.token && req.params.token == token) {//caso o token seja valido
+        getMethods.transferenciasByContaId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
+    } else {//caso seja invalido retornará o objeto de erro
+        res.json(error)
+    }
+
+})
+
+router.get('/transferencias/:conta_id/:order/:limit/:token', (req, res) => {//rota para retornar todas as transferencias do bd com limite de busca
+    if (req.params.token && req.params.token == token) {//caso o token seja valido
+        getMethods.transferenciasByContaId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
+    } else {//caso seja invalido retornará o objeto de erro
+        res.json(error)
+    }
+
 })
 
 router.post('/usuario/:token', (req, res) => {

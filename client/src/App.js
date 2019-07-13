@@ -1,35 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Routes from '../src/components/Routes';
+import TopNavigation from './components/topNavigation';
+import SideNavigation from './components/sideNavigation';
+import Footer from './components/Footer';
+import './index.css';
 
 class App extends Component {
-  state = {
-    response: ''
-  };
-
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+  constructor(props) {
+    super(props)
+    this.state = { usuario: [] }
+    this.setUsuario = this.setUsuario.bind(this)
   }
 
-  callApi = async () => {
-    const response = await fetch('/api/mensagem');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  };
+  setUsuario(usuario) {
+    this.setState({ usuario })
+  }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.response}</p>
-      </div>
+        <div className="flexible-content">
+          <TopNavigation />
+          <SideNavigation usuario={this.state.usuario} />
+          <main id="content" className="p-5">
+            <Routes setUsuario={this.setUsuario} />
+          </main>
+          <Footer />
+        </div>
     );
   }
 }
