@@ -12,15 +12,11 @@ import ModalSection from './sections/ModalSection';
 const DashboardPage = (props) => {
   return (
     <React.Fragment>
-      <BreadcrumSection contas={props.contas} conta={props.conta} changeConta={props.changeConta} />
+      <BreadcrumSection page="Pagina Inicial" contas={props.contas} conta={props.conta} changeConta={props.changeConta} />
       <AdminCardSection1 usuario={props.usuario} conta={props.contas[props.conta]} extrato={props.extrato} />
       {/*<ChartSection1 />*/}
       <TableSection extrato={props.extrato} />
       {/*<ChartSection2 />*/}
-      <MDBRow className="mb-4">
-          {/*<MapSection />*/}
-          <ModalSection />
-      </MDBRow>
       {/*<AdminCardSection2 />*/}
     </React.Fragment>
   )

@@ -202,6 +202,12 @@ main {
   } 
 }
 
+@media (min-width: 1199.98px) {
+  .navbar {
+    display: none;
+  }
+}
+
 @media (max-width: 576px) { 
   .card.cascading-admin-card {
     margin-top: 2.5rem;

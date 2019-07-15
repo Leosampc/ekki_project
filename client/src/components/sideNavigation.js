@@ -17,19 +17,19 @@ const TopNavigation = (props) => {
                         Página Incial
                     </MDBListGroupItem>
                 </NavLink>
-                <NavLink to="/profile" activeClassName="activeClass">
+                <NavLink to="/favorecidos" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="users" className="mr-3"/>
                         Favorecidos
                     </MDBListGroupItem>
                 </NavLink>
-                <NavLink to="/tables" activeClassName="activeClass">
+                <NavLink to="/extrato" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="list-ul" className="mr-3"/>
                         &nbsp;Extratos
                     </MDBListGroupItem>
                 </NavLink>
-                <NavLink to="/maps" activeClassName="activeClass">
+                <NavLink to="/transferencia" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="money-check-alt" className="mr-3"/>
                         Transferências

@@ -8,6 +8,13 @@ getMethods.usuario = (req, res) => {
     })
 }
 
+getMethods.usuarioByNome = (req, res) => {
+    conn.query("SELECT * FROM usuario WHERE nome = ?", req.params.nome, (err, result, field) => { //query que seleciona o usuario pelo id
+        if (err) return console.log(err)
+        res.json(result[0]) //retorna um json com os dados do usuario
+    })
+}
+
 getMethods.contasByUsuarioId = (req, res) => {
     conn.query("SELECT * FROM conta WHERE usuario_id = ?", req.params.usuario_id, (err, result) => { //query que seleciona as contas de um usuario
         if(err) return console.log(err)
@@ -48,7 +55,6 @@ getMethods.transferenciasByContaId = (req, res) => {
 
     conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? ${order_limit}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id do usuario
         if (err) return console.log(err)
-        console.log(result)
         res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
     })
 }

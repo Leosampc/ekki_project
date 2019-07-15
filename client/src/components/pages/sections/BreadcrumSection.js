@@ -7,7 +7,7 @@ const BreadcrumSection = (props) => {
         <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
             <MDBBreadcrumb>
                 <MDBBreadcrumbItem>Home</MDBBreadcrumbItem>
-                <MDBBreadcrumbItem active>Página Inicial</MDBBreadcrumbItem>
+                <MDBBreadcrumbItem active>{props.page}</MDBBreadcrumbItem>
             </MDBBreadcrumb>
             <MDBFormInline className="md-form m-0">
                 <h5 style={{ marginRight: 10, }}>Conta: </h5>
