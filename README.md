@@ -17,7 +17,7 @@ npm install
 
 ```
 
-Depois disso, é necessário ter um servidor (pode ser local) que possua **mysql** instalado (ou instale manualmente). Com o servidor e o mysql já em execução, crie um banco de dados chamado **db_ekki** e faça o upload do arquivo **db_ekki.sql (localizado em ekki_project/_db_dump/)** no banco de dados recém criado no servidor. Com o banco de dados em execução, precisamos configurar as credenciais da conexão com o mysql na api. Acesse o arquivo **db.js**, localizado no diretório raiz **(ekki_project/)** da aplicação, e edite as credenciais conforme os seus dados.
+Depois disso, é necessário ter um servidor (pode ser local) que possua **mysql** instalado (ou instale manualmente). Com o servidor e o mysql já em execução, crie um banco de dados chamado **db_ekki** e faça o upload do arquivo **db_ekki.sql** (localizado em: **./ekki_project/_db_dump/**) no banco de dados recém criado no servidor. Com o banco de dados em execução, precisamos configurar as credenciais da conexão com o mysql na api. Acesse o arquivo **db.js**, localizado no diretório raiz **(./ekki_project/)** da aplicação, e edite as credenciais conforme os seus dados.
 
 O arquivo é aparentemente assim:
 
@@ -55,7 +55,7 @@ npm run dev
 
 ```
 ```
-Como a aplicação ***não possui*** funcionalidades para cadastrar usuarios e contas, os mesmos devem ser inseridos **manualmente** no bd. Para alterar o usuário "logado" no sistema, é necessário alterar a **linha 15** do arquivo *./ekki_project/client/src/components/Routes.js* para o id do usuário relacionado.
+Como a aplicação ***não possui*** funcionalidades para cadastrar usuarios e contas, os mesmos devem ser inseridos **manualmente** no bd. Para alterar o usuário "logado" no sistema, é necessário alterar a **linha 15** do arquivo **./ekki_project/client/src/components/Routes.js** para o id do usuário relacionado.
 
 ```javascript
 import React from 'react'
