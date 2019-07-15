@@ -6,7 +6,7 @@ const date = moment().format("YYYY-MM-DD HH:mm"); //retorna a data atual formata
 
 deleteMethods.favorecido = (req, res) => {
     res.send(req.query.id)
-    conn.query("DELETE FROM favorecido WHERE id = ?", req.query.id, (err, result, field) => { //query que insere um favorecido no bd, com os dados do usuario/conta e do usuario/favorecido/conta
+    conn.query("DELETE FROM favorecido WHERE id = ?", req.query.id, (err, result, field) => { //query que deleta um favorecido no bd pelo id do registro do favorecido
         if (err) return console.log(err)
     })
 }

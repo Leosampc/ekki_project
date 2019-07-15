@@ -53,7 +53,7 @@ getMethods.transferenciasByUsuarioId = (req, res) => {
 getMethods.transferenciasByContaId = (req, res) => {
     let order_limit = (req.params.order && req.params.limit) ? `ORDER BY t.id ${req.params.order} LIMIT ${req.params.limit}` : ""
 
-    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? ${order_limit}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id do usuario
+    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? ${order_limit}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id da conta
         if (err) return console.log(err)
         res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
     })
@@ -64,7 +64,7 @@ getMethods.transferenciasByDateRange = (req, res) => {
     let endDate  = req.params.end_date.replace("_", "-").replace("_", "-")
     stringDate = (startDate == endDate) ?` = DATE('${startDate}')` : ` BETWEEN '${startDate}' AND '${endDate}'`
 
-    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? AND DATE(t.data_cadastro) ${stringDate}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id do usuario
+    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? AND DATE(t.data_cadastro) ${stringDate}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario e conta pela data
         if (err) return console.log(err)
         res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
     })

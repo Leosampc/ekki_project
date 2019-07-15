@@ -4,10 +4,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import './index.css';
-import App from './App';
+import App from './App'; //importa toda a nossa aplicacao
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 
-ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
+ReactDOM.render(<Router><App /></Router>, document.getElementById('root')); //renderiza a aplicacao na DOM
 registerServiceWorker();

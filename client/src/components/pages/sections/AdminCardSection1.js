@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBCard, MDBCardBody, MDBIcon, MDBRow, MDBCol, MDBCardText, MDBJumbotron, MDBContainer, MDBBadge } from 'mdbreact';
 
-function formataTelefone(v) {
+function formataTelefone(v) { //funcao para formatar telefone
   v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
   v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
   v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
@@ -9,12 +9,16 @@ function formataTelefone(v) {
 }
 
 const AdminCardSection1 = (props) => {
-  if (typeof props.conta === 'undefined') {
-    return <div>teste</div>
+  if (typeof props.conta === 'undefined') { //caso os dados das contas, recebidas por props ainda nao tenham carregado
+    return (
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    )
   }
   let saldo = parseFloat(props.conta.saldo)
   let limite = parseFloat(props.conta.limite)
-  let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100)
+  let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100) //calculo para verificar a porcentagem disponivel do limite da conta
   return (
     <MDBRow className="mb-4">
         <MDBCol xl="8" md="6" className="mb-3">

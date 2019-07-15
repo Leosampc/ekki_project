@@ -12,7 +12,7 @@ const error = { error: 'token invalido' } //objeto com a mensagem de erro
 
 //METODOS GET (SELECIONA DO BD)
 
-router.get('/usuario/:id/:token', (req, res) => {//rota para retornar um usuario especifico
+router.get('/usuario/:id/:token', (req, res) => {//rota para retornar um usuario especifico pelo id
     if(req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.usuario(req, res) //chama o metodo get "usuario" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -21,7 +21,7 @@ router.get('/usuario/:id/:token', (req, res) => {//rota para retornar um usuario
         
 })
 
-router.get('/usuario/nome/:nome/:token', (req, res) => { //rota para retornar um usuario especifico
+router.get('/usuario/nome/:nome/:token', (req, res) => { //rota para retornar um usuario especifico pelo nome
     if (req.params.token && req.params.token == token) { //caso o token seja valido
         getMethods.usuarioByNome(req, res) //chama o metodo get "usuario" e envia o req e res por parametro
     } else { //caso seja invalido retornará o objeto de erro
@@ -30,7 +30,7 @@ router.get('/usuario/nome/:nome/:token', (req, res) => { //rota para retornar um
 
 })
 
-router.get('/conta/:id/:token', (req, res) => { //rota para retornar as contas de um usuario especifico
+router.get('/conta/:id/:token', (req, res) => { //rota para retornar uma conta especifica pelo id
     if (req.params.token && req.params.token == token) { //caso o token seja valido
         getMethods.contaById(req, res) //chama o metodo get "conta" e envia o req e res por parametro
     } else { //caso seja invalido retornará o objeto de erro
@@ -66,7 +66,7 @@ router.get('/transferencias/:token', (req, res) => {//rota para retornar todas a
         
 })
 
-router.get('/transferencias/usuario/:usuario_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+router.get('/transferencias/usuario/:usuario_id/:token', (req, res) => {//rota para retornar todas as transferencias de um usuario especifico
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByUsuarioId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -75,7 +75,7 @@ router.get('/transferencias/usuario/:usuario_id/:token', (req, res) => {//rota p
 
 })
 
-router.get('/transferencias/conta/:conta_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+router.get('/transferencias/conta/:conta_id/:token', (req, res) => {//rota para retornar todas as transferencias de uma conta especifica
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByContaId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -93,7 +93,7 @@ router.get('/transferencias/:conta_id/:order/:limit/:token', (req, res) => {//ro
 
 })
 
-router.get('/transferencias/date/:conta_id/:start_date/:end_date/:token', (req, res) => {//rota para retornar todas as transferencias do bd com limite de busca
+router.get('/transferencias/date/:conta_id/:start_date/:end_date/:token', (req, res) => {//rota para retornar todas as transferencias do bd com filtro de datas
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByDateRange(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -104,7 +104,7 @@ router.get('/transferencias/date/:conta_id/:start_date/:end_date/:token', (req, 
 
 //METODOS POST (INSERCAO NO BD)
 
-router.post('/usuario/:token', (req, res) => {
+router.post('/usuario/:token', (req, res) => { //rota para inserir um usuario
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         postMethods.usuario(req, res) //chama o metodo post "usuario" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -112,7 +112,7 @@ router.post('/usuario/:token', (req, res) => {
     }
 })
 
-router.post('/favorecido/:token', (req, res) => {
+router.post('/favorecido/:token', (req, res) => { //rota para inserir um favorecido 
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         postMethods.favorecido(req, res) //chama o metodo post "favorecidos" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -120,7 +120,7 @@ router.post('/favorecido/:token', (req, res) => {
     }
 })
 
-router.post('/conta/:token', (req, res) => {
+router.post('/conta/:token', (req, res) => { //rota para inserir uma conta
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         postMethods.conta(req, res) //chama o metodo post "conta" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -128,7 +128,7 @@ router.post('/conta/:token', (req, res) => {
     }
 })
 
-router.post('/transferencia/:token', (req, res) => {
+router.post('/transferencia/:token', (req, res) => { //rota para inserir uma transferencia
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         postMethods.transferencia(req, res) //chama o metodo post "transferencia" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -136,7 +136,9 @@ router.post('/transferencia/:token', (req, res) => {
     }
 })
 
-router.delete('/favorecido/:token', (req, res) => {
+//METODOS DELETE (DELETE NO BD)
+
+router.delete('/favorecido/:token', (req, res) => { //rota para deletar um favorecido
     if (req.params.token && req.params.token == token) { //caso o token seja valido
         deleteMethods.favorecido(req, res) //chama o metodo post "transferencia" e envia o req e res por parametro
     } else { //caso seja invalido retornará o objeto de erro

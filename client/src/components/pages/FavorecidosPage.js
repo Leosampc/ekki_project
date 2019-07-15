@@ -2,7 +2,6 @@ import React from 'react'
 import axios from 'axios'
 import { MDBCard, MDBCol, MDBRow, MDBView, MDBModal, MDBModalBody, MDBModalHeader, MDBCardBody, MDBInput, MDBCardText, MDBCardFooter, MDBBtn, MDBIcon, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact';
 import BreadcrumSection from './sections/BreadcrumSection';
-import src1 from '../../assets/img-1.jpg';
 
 const md5 = require('md5')
 
@@ -31,60 +30,60 @@ class FavorecidosPage extends React.Component {
     this.setState({ [name] : status })
   }
 
-  setInputValue (event) {
-    let inputName  = event.target.name
-    let inputValue = event.target.value
-    let lastValueChar = (parseInt(inputValue.slice(-1)) >= 0 && parseInt(inputValue.slice(-1)) < 10) ? parseInt(inputValue.slice(-1)) : ""
-    if ((inputName == "conta" || inputName == "favorecido_conta") && lastValueChar === "") {
+  setInputValue (event) { //seta o valor do state relacionado ao input
+    let inputName  = event.target.name //retorna o name do input
+    let inputValue = event.target.value //retorna o valor do input
+    let lastValueChar = (parseInt(inputValue.slice(-1)) >= 0 && parseInt(inputValue.slice(-1)) < 10) ? parseInt(inputValue.slice(-1)) : "" //se o ultimo caractere for um numero, atribui ele a variavel, caso contrario deixa-a vazia
+    if ((inputName == "conta" || inputName == "favorecido_conta") && lastValueChar === "") { //se forem um dos inputs relacionados à conta (que possuem apenas numeros) e o ultimo caractere nao e um numero, nao atualizada o estado da variavel do componente
       return 
     }
     this.setState({ [inputName]: inputValue })
   }
 
-  submitForm(event) {
-    event.preventDefault();
+  submitForm(event) { //envia o formulario
+    event.preventDefault(); //pausa a execucao automatica do form
     let usuario_id = this.props.usuario.id
-    if (this.state.conta.trim().length == 0 || this.state.favorecido.trim().length == 0 || this.state.favorecido_conta.trim().length == 0) {
-      this.setState({ modalErroMensagem: "Dados prenchidos em branco, favor tentar novamente." }, () => {
-        this.setStateModal("modalErro", true)
+    if (this.state.conta.trim().length == 0 || this.state.favorecido.trim().length == 0 || this.state.favorecido_conta.trim().length == 0) { //se possuir algum dado em branco ou prenchido incorretamente
+      this.setState({ modalErroMensagem: "Dados prenchidos em branco, favor tentar novamente." }, () => { //atualiza a a variavel de estado responsavel por conter a mensagem de erro
+        this.setStateModal("modalErro", true) //exibe o modal de erro
       })
       return false
     }
     axios.get(`/api/usuario/nome/${this.state.favorecido}/${token}`)
-      .then(res => {
-        if(res.data == "") {
+      .then(res => { //resgata os dados do usuario pelo nome digitado
+        if(res.data == "") { //caso nao retorne um usuario, exibe a mensagem de usuario nao encontrado
           this.setState({ modalErroMensagem: "O nome do usuario a ser cadastrado como favorecido nao foi encontrado, favor tentar novamente." }, () => {
             this.setStateModal("modalErro", true)
           })
           return
-        } else {
-          let favorecido_id = res.data.id
+        } else {//caso contrario
+          let favorecido_id = res.data.id //resgata o id do usuario para ser o id do favorecido
           axios.get(`/api/conta/${this.state.conta}/${token}`)
-            .then(res => {
-              if(res.data == "") {
+            .then(res => { //seleciona a conta do usuario
+              if(res.data == "") { //caso nao encontre a conta, exibe a mensagem de erro
                 this.setState({ modalErroMensagem: "Conta do usuario nao encontrada, favor tentar novamente." }, () => {
                   this.setStateModal("modalErro", true)
                 })
                 return
-              } else {
-                axios.get(`/api/conta/${this.state.favorecido_conta}/${token}`)
+              } else {//caso contrario
+                axios.get(`/api/conta/${this.state.favorecido_conta}/${token}`) //resgata a conta do favorecido
                   .then(res => {
-                    if(res.data == "") {
+                    if(res.data == "") { //caso nao encontre a conta, exibe a mensagem de erro
                       this.setState({ modalErroMensagem: "Conta do favorecido nao encontrada, favor tentar novamente." }, () => {
                         this.setStateModal("modalErro", true)
                       })
                       return
-                    } else {
-                      axios.post(`/api/favorecido/${token}`, {
+                    } else {//caso contrario
+                      axios.post(`/api/favorecido/${token}`, { //envia os dados de cadastro do favorecido por post
                         usuario_id: usuario_id,
                         usuario_conta_id: this.state.conta,
                         favorecido_id: favorecido_id,
                         favorecido_conta_id: this.state.favorecido_conta,
                       })
                         .then(res => {
-                          if (parseInt(res.data) > 0) {
-                            this.props.getFavorecidos(this.props.usuario)
-                            this.setState({ modalFavorecido: false, modalErroMensagem: "", conta: "", favorecido: "", favorecido_conta: "" })
+                          if (parseInt(res.data) > 0) { //se for retornado um id (significa que a insercao foi realizada com sucesso)
+                            this.props.getFavorecidos(this.props.usuario) //atualiza a variavel de estado que contem os favorecidos
+                            this.setState({ modalFavorecido: false, modalErroMensagem: "", conta: "", favorecido: "", favorecido_conta: "" }) //limpa os inputs
                           }
                         })
                         .catch(err => {
@@ -104,7 +103,7 @@ class FavorecidosPage extends React.Component {
       })
   }
 
-  deleteFavorecidoById(id) {
+  deleteFavorecidoById(id) { //deleta um favorecido pelo id
     axios.delete(`/api/favorecido/${token}`, {
         params: {
           id
@@ -112,12 +111,12 @@ class FavorecidosPage extends React.Component {
       })
       .then(res => {
         console.log(res)
-        this.props.getFavorecidos(this.props.usuario)
+        this.props.getFavorecidos(this.props.usuario) //atualiza a variavel de estado que contem os favorecidos
       })
   }
 
   render() {
-    let count = 1
+    let count = 1 //contador da tabbela
     return (
       <React.Fragment>
         <BreadcrumSection page="Favorecidos" contas={this.props.contas} conta={this.props.conta} changeConta={this.props.changeConta} />

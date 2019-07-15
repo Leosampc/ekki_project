@@ -17,7 +17,7 @@ class TransferenciaPage extends React.Component {
     this.state = {
       startDate: new Date(),
       endDate: new Date(),
-      tdInicial: 'block',
+      tdInicial: 'block', //controla o estado de exibicao de uma td descritiva
       extrato: []
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
@@ -25,24 +25,24 @@ class TransferenciaPage extends React.Component {
     this.getExtrato = this.getExtrato.bind(this);
   }
 
-  handleChangeStart(date) {
+  handleChangeStart(date) { //seta a data inicial
     this.setState({
       startDate: date
     });
   }
 
-  handleChangeEnd(date) {
+  handleChangeEnd(date) { //seta a data final
     this.setState({
       endDate: date
     });
   }
 
-  getExtrato() {
-    let startDate = moment(this.state.startDate).format("YYYY_MM_DD")
-    let endDate = moment(this.state.endDate).format("YYYY_MM_DD")
-    let conta = this.props.contas[this.props.conta]
+  getExtrato() { //retorna o extrato baseado nas datas
+    let startDate = moment(this.state.startDate).format("YYYY_MM_DD") //coloca "_" na string da data para que a mesma possa ser enviada por get sem quebrar o link
+    let endDate = moment(this.state.endDate).format("YYYY_MM_DD") //coloca "_" na string da data para que a mesma possa ser enviada por get sem quebrar o link
+    let conta = this.props.contas[this.props.conta] //recebe a conta selecionada
     axios.get(`/api/transferencias/date/${conta.id}/${startDate}/${endDate}/${token}`)
-      .then(res => {
+      .then(res => { //envia a requisicao das transacoes
         console.log(res.data)
         this.setState({extrato : res.data, tdInicial: 'none'})
       })
@@ -52,10 +52,10 @@ class TransferenciaPage extends React.Component {
   }
 
   render() {
-    let count = 1
+    let count = 1 //contador da tabela
     let tr = <tr><td colSpan="7"><center>Selecione as datas e clique em "buscar" para visualizar o seu extrato.</center></td></tr>
-    if (this.state.extrato.length > 0) {
-      tr = this.state.extrato.map((arr, index) => {
+    if (this.state.extrato.length > 0) { //se o array de extratos possuir registros, altera o conteudo da variavel tr
+      tr = this.state.extrato.map((arr, index) => { //metodo map para instanciar os objetos do array, 1 a 1
         return (
           <tr key={arr.id}>
             <td>{count++}</td>

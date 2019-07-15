@@ -1,23 +1,15 @@
 import React from 'react';
 import { MDBRow } from 'mdbreact';
 import AdminCardSection1 from './sections/AdminCardSection1';
-import AdminCardSection2 from './sections/AdminCardSection2';
 import TableSection from './sections/TableSection';
 import BreadcrumSection from './sections/BreadcrumSection';
-import ChartSection1 from './sections/ChartSection1';
-import ChartSection2 from './sections/ChartSection2';
-import MapSection from './sections/MapSection';
-import ModalSection from './sections/ModalSection';
 
-const DashboardPage = (props) => {
+const DashboardPage = (props) => { //todas as props sao recebidas atraves do componente anterior
   return (
     <React.Fragment>
       <BreadcrumSection page="Pagina Inicial" contas={props.contas} conta={props.conta} changeConta={props.changeConta} />
       <AdminCardSection1 usuario={props.usuario} conta={props.contas[props.conta]} extrato={props.extrato} />
-      {/*<ChartSection1 />*/}
       <TableSection extrato={props.extrato} />
-      {/*<ChartSection2 />*/}
-      {/*<AdminCardSection2 />*/}
     </React.Fragment>
   )
 }

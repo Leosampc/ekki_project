@@ -2,7 +2,6 @@ import React from 'react';
 import { MDBCard, MDBCardBody, MDBView, MDBTable, MDBTableBody, MDBTableHead, MDBRow, MDBCol } from 'mdbreact';
 
 const TableSection = (props) => {
-  console.log(props.extrato)
   let count = 1
   return (
     <MDBRow className="mb-4">

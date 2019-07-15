@@ -37,21 +37,21 @@ class TransferenciaPage extends React.Component {
     this.submitForm = this.submitForm.bind(this)
   }
 
-  setStateModal(name, status) {
+  setStateModal(name, status) { //exibe ou esconde um modal
     this.setState({ [name] : status })
   }
 
-  changeFavorecido(e) {
-    let index = e.target.value
-    let favorecido = this.props.favorecidos[index]
+  changeFavorecido(e) { //atualiza o estado da variavel do favorecido selecionado e preenche os demais inputs com os dados resgatados
+    let index = e.target.value //valor do option
+    let favorecido = this.props.favorecidos[index] //retorna o favorecido pelo index armazenado anteriormente, que faz referencia a posicao do favorecido no array de favorecidos
     this.setState({ favorecido: favorecido.favorecido_id, favorecido_nome: favorecido.favorecido, favorecido_conta: favorecido.favorecido_conta_id, conta: favorecido.usuario_conta_id, valorTransferencia: "", displayFinalForm: 'block' })
   }
 
-  changeValor(event) {
-    let inputName = event.target.name
-    let inputValue = event.target.value
-    let lastValueChar = ((parseInt(inputValue.slice(-1)) >= 0 && parseInt(inputValue.slice(-1)) < 10) || inputValue.slice(-1) == ".") ? inputValue.slice(-1) : ""
-    if ((lastValueChar == "" || (lastValueChar == "." && parseInt(this.state.valorTransferencia.indexOf(".")) > -1)) && inputName == "valorTransferencia") {
+  changeValor(event) { //atualiza o valor de um input
+    let inputName = event.target.name //nome do input
+    let inputValue = event.target.value //valor do input
+    let lastValueChar = ((parseInt(inputValue.slice(-1)) >= 0 && parseInt(inputValue.slice(-1)) < 10) || inputValue.slice(-1) == ".") ? inputValue.slice(-1) : "" //caso seja um numero ou um ponto ".", atribui o mesmo a variavel, caso contrario deixa-a vazia
+    if ((lastValueChar == "" || (lastValueChar == "." && parseInt(this.state.valorTransferencia.indexOf(".")) > -1)) && inputName == "valorTransferencia") { //caso a variavel criada anteriormente esteja vazia OU seja um ponto "." e o input do valor ja tenha ponto, nao atualiza o estado da variavel
       return false
     }
     this.setState({
@@ -59,11 +59,11 @@ class TransferenciaPage extends React.Component {
     })
   }
 
-  submitForm(event) {
-    event.preventDefault();
+  submitForm(event) { //envia o formulario
+    event.preventDefault(); //pausa a execucao automatica do formulario
     let usuario_id = this.props.usuario.id
-    if (parseFloat(this.state.valorTransferencia) > 0 && this.state.descricaoTransferencia.trim().length > 1) {
-      axios.post(`/api/transferencia/${token}`, {
+    if (parseFloat(this.state.valorTransferencia) > 0 && this.state.descricaoTransferencia.trim().length > 1) { //se o valor da transferencia for positivo e a possuir alguma descricao da transacao
+      axios.post(`/api/transferencia/${token}`, { //envia os dados para cadastro da transferencia, por post
         descricao: this.state.descricaoTransferencia,
         valor: parseFloat(this.state.valorTransferencia),
         usuario_id: usuario_id,
@@ -72,24 +72,24 @@ class TransferenciaPage extends React.Component {
         favorecido_conta_id: this.state.favorecido_conta,
       })
         .then(res => {
-          if(res.data.error) {
+          if(res.data.error) { //se possuir algum erro, exibe o modal de erro com a mensagem
             this.setState({ modalErroMensagem: res.data.error }, () => {
               this.setStateModal("modalErro", true)
             })
             return false
-          } else {
-            if(res.data.message && res.data.message == "limite") {
+          } else {//caso nao possuam erros
+            if(res.data.message && res.data.message == "limite") { //se possuir a mensagem do limite, exibe o modal com a mensagem que o limite teve que ser utilizado
               this.setState({ modalErroMensagem: "Foi utilizado o limite para realizar a transacao." }, () => {
                 this.setStateModal("modalErro", true)
               })
             }
-            this.props.refreshData()
+            this.props.refreshData() //metodo que atualiza as variaveis de estado da aplicacao para manter o fluxo correto
           }
         })
         .catch(err => {
           console.log(err)
         })
-    } else {
+    } else { //caso o valor esteja errado ou a descricao em branco
       this.setState({
         modalErroMensagem: "Campos em branco ou errados, favor tentar novamente."
       }, () => {
@@ -99,12 +99,16 @@ class TransferenciaPage extends React.Component {
   }
   
   render() {
-    if (this.props.contas.length == 0) {
-      return <div>teste</div>
-    } else {
+    if (this.props.contas.length == 0) { //caso os dados das contas, recebidas por props ainda nao tenham carregado
+      return (
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      )
+    } else {//quando carrega
       let saldo = parseFloat(this.props.contas[this.props.conta].saldo)
       let limite = parseFloat(this.props.contas[this.props.conta].limite)
-      let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100)
+      let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100) //calculo para verificar a porcentagem disponivel do limite da conta
       return (
         <React.Fragment>
           <BreadcrumSection page="Favorecidos" contas={this.props.contas} conta={this.props.conta} changeConta={this.props.changeConta} />

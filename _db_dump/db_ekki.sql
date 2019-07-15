@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/07/2019 às 00:58
+-- Tempo de geração: 15/07/2019 às 17:22
 -- Versão do servidor: 5.6.37
 -- Versão do PHP: 7.1.8
 
@@ -33,15 +33,17 @@ CREATE TABLE IF NOT EXISTS `conta` (
   `usuario_id` int(11) NOT NULL,
   `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_atualizacao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Fazendo dump de dados para tabela `conta`
 --
 
 INSERT INTO `conta` (`id`, `saldo`, `limite`, `usuario_id`, `data_cadastro`, `data_atualizacao`) VALUES
-(1, 1000.00, 500.00, 1, '2019-07-11 16:26:29', '2019-07-11 16:26:29'),
-(2, 1000.00, 500.00, 2, '2019-07-11 16:27:11', '2019-07-11 16:27:11');
+(1, 500.00, 500.00, 1, '2019-07-15 14:17:03', '2019-07-15 14:21:29'),
+(2, 1100.00, 500.00, 2, '2019-07-15 14:17:40', '2019-07-15 14:21:12'),
+(3, 1900.00, 500.00, 3, '2019-07-15 14:17:40', '2019-07-15 14:21:54'),
+(7, 1000.00, 500.00, 1, '2019-07-15 14:18:06', '2019-07-15 14:21:54');
 
 -- --------------------------------------------------------
 
@@ -56,14 +58,16 @@ CREATE TABLE IF NOT EXISTS `favorecido` (
   `favorecido_id` int(11) NOT NULL,
   `favorecido_conta_id` int(11) NOT NULL,
   `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Fazendo dump de dados para tabela `favorecido`
 --
 
 INSERT INTO `favorecido` (`id`, `usuario_id`, `usuario_conta_id`, `favorecido_id`, `favorecido_conta_id`, `data_cadastro`) VALUES
-(1, 1, 1, 2, 2, '2019-07-11 16:36:43');
+(1, 1, 1, 2, 2, '2019-07-15 14:20:08'),
+(2, 1, 1, 3, 3, '2019-07-15 14:20:27'),
+(3, 1, 7, 3, 3, '2019-07-15 14:20:52');
 
 -- --------------------------------------------------------
 
@@ -82,7 +86,16 @@ CREATE TABLE IF NOT EXISTS `transferencia` (
   `status` varchar(10) NOT NULL,
   `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_atualizacao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Fazendo dump de dados para tabela `transferencia`
+--
+
+INSERT INTO `transferencia` (`id`, `descricao`, `valor`, `usuario_id`, `usuario_conta_id`, `favorecido_id`, `favorecido_conta_id`, `status`, `data_cadastro`, `data_atualizacao`) VALUES
+(1, 'Primeira Transacao', 100.00, 1, 1, 2, 2, 'APROVADO', '2019-07-15 14:21:12', '2019-07-15 14:21:12'),
+(2, 'Segunda Transacao', 400.00, 1, 1, 3, 3, 'APROVADO', '2019-07-15 14:21:29', '2019-07-15 14:21:29'),
+(3, 'Terceira Transacao', 500.00, 1, 7, 3, 3, 'APROVADO', '2019-07-15 14:21:54', '2019-07-15 14:21:54');
 
 -- --------------------------------------------------------
 
@@ -97,15 +110,16 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `telefone` varchar(11) DEFAULT NULL,
   `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_atualizacao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Fazendo dump de dados para tabela `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `cpf`, `telefone`, `data_cadastro`, `data_atualizacao`) VALUES
-(1, 'Leonardo Sampaio da Cruz', '03974088032', '51995665804', '2019-07-11 16:24:56', '2019-07-11 16:24:56'),
-(2, 'David Aron Pires Fagundes', '03741227099', '51997413660', '2019-07-11 16:25:53', '2019-07-11 16:25:53');
+(1, 'Leonardo Sampaio da Cruz', '12345678978', '51999558844', '2019-07-15 14:15:42', '2019-07-15 14:16:33'),
+(2, 'Usuario 2', '32165498774', '54987654121', '2019-07-15 14:15:42', '2019-07-15 14:16:36'),
+(3, 'Fulano da Silva', '85274196398', '51998774587', '2019-07-15 14:16:29', '2019-07-15 14:16:38');
 
 --
 -- Índices de tabelas apagadas
@@ -152,17 +166,22 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `conta`
 --
 ALTER TABLE `conta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de tabela `favorecido`
 --
 ALTER TABLE `favorecido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de tabela `transferencia`
+--
+ALTER TABLE `transferencia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Restrições para dumps de tabelas
 --
