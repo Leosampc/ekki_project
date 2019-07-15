@@ -39,7 +39,7 @@ connection.connect(function (err) {
 module.exports = connection
 ```
 
-Com os passos anteriores executados corretamente, acessamos a raiz do nosso projeto (**./ekki_project/**) e podemos iniciar a aplicação.
+Com os passos anteriores executados corretamente, acessamos a raiz do nosso projeto (**./ekki_project/**) e podemos iniciar a aplicação no ambiente de desenvolvimento.
 
 ```
 npm run dev
@@ -48,10 +48,73 @@ npm run dev
 
 *Obs:* No arquivo **./ekki_project/client/package.json**, foi adicionado um atributo chamado **proxy**, que aponta para o host da API. Isso define com que as requisições http da nossa aplicação sejam todas feitas à partir do **host do back-end**. Caso você utilize outro host para hospedar a aplicação do back-end, **é necessário alterar essa linha do arquivo**. 
 
+```json
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "MVP Ekki",
+  "author": "Leonardo Cruz",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "google-map-react": "^1.0.6",
+    "md5": "^2.2.1",
+    "mdbreact": "^4.9.0",
+    "react": "^16.7.0",
+    "react-datepicker": "^2.8.0",
+    "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "proxy": "http://localhost:5000/" //linha relacionada
+}
+```
+
 *Obs:* No arquivo **./ekki_project/package.json**, foram adicionados **3 comandos** no atributo **scripts**:
  * **client**: acessa o diretório ./ekki_project/client/ e starta a aplicação react com o comando **npm start**
  * **server**: executa o comando **nodemon app.js** e starta a aplicação do back-end
  * **client**: utiliza a biblioteca **concurrently (instalado com as dependencias da aplicacao)** para executar os 2 comandos anteriores e rodar a aplicação em um único terminal, simultâneamente.
+
+```json
+{
+    "name": "ekki-project",
+    "version": "1.0.0",
+    "scripts": { //abaixo estão as linhas relacionadas
+        "client": "cd client && npm start", //acessa o diretorio client e starta a aplicação react
+        "server": "nodemon app.js", //starta a aplicação node com o comando 'nodemon' (comando disponivel apenas no ambiente de dev)
+        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"" //comando que executa simultaneamente os 2 anteriores
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "jquery": "^3.4.1",
+        "md5": "^2.2.1",
+        "mdbreact": "^4.18.0",
+        "moment": "^2.24.0",
+        "moment-timezone": "^0.5.26",
+        "mysql": "^2.17.1",
+        "popper.js": "^1.15.0"
+    },
+    "devDependencies": {
+        "concurrently": "^3.5.0",
+        "nodemon": "^1.19.1"
+    }
+}
+
+
+```
+
 
 ```
 ```
