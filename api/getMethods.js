@@ -58,3 +58,14 @@ getMethods.transferenciasByContaId = (req, res) => {
         res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
     })
 }
+
+getMethods.transferenciasByDateRange = (req, res) => {
+    let startDate = req.params.start_date.replace("_", "-").replace("_", "-")
+    let endDate  = req.params.end_date.replace("_", "-").replace("_", "-")
+    stringDate = (startDate == endDate) ?` = DATE('${startDate}')` : ` BETWEEN '${startDate}' AND '${endDate}'`
+
+    conn.query(`SELECT t.id, t.descricao, t.valor, t.usuario_id, t.usuario_conta_id, u.nome AS 'usuario', t.favorecido_id, t.favorecido_conta_id, fu.nome AS 'favorecido', t.status, DATE_FORMAT(t.data_cadastro, '%d/%m/%Y ás %H:%i') AS 'data_cadastro' FROM transferencia t INNER JOIN usuario u ON t.usuario_id = u.id INNER JOIN usuario fu ON t.favorecido_id = fu.id WHERE t.usuario_conta_id = ? AND DATE(t.data_cadastro) ${stringDate}`, req.params.conta_id, (err, result, field) => { //query que seleciona todas as trasferencias de um determinado usuario pelo id do usuario
+        if (err) return console.log(err)
+        res.json(result) //retorna um array de objetos com todas as transferencias do usuario relacionado
+    })
+}

@@ -98,7 +98,7 @@ class Routes extends React.Component {
           render={() => <DashboardPage usuario={this.state.usuario} contas={this.state.contas} conta={this.state.selectedConta} changeConta={this.changeConta} extrato={this.state.extrato} /> } 
         />
         <Route path='/favorecidos' render={() => <FavorecidosPage usuario={this.state.usuario} pagina="Favorecidos" contas={this.state.contas} conta={this.state.selectedConta} changeConta={ this.changeConta } favorecidos={this.state.favorecidos} deleteFavorecidoById={this.deleteFavorecidoById} getFavorecidos={this.getFavorecidos} />} />
-        <Route path='/extrato' render={ () => <ExtratoPage /> } />
+        <Route path='/extrato' render={ () => <ExtratoPage  usuario={this.state.usuario} contas={this.state.contas} conta={this.state.selectedConta} changeConta={this.changeConta} /> } />
 
 
         <Route path='/transferencia' render={() => <TransferenciaPage usuario={this.state.usuario} pagina="Transferencia" contas={this.state.contas} conta={this.state.selectedConta} changeConta={ this.changeConta } favorecidos={this.state.favorecidos} refreshData={this.refreshData} />} />

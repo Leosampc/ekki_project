@@ -14,8 +14,7 @@ const AdminCardSection1 = (props) => {
   }
   let saldo = parseFloat(props.conta.saldo)
   let limite = parseFloat(props.conta.limite)
-  let disponivel = (saldo >= 0) ? 100 : parseInt((saldo * -1) / limite * 100)
-
+  let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100)
   return (
     <MDBRow className="mb-4">
         <MDBCol xl="8" md="6" className="mb-3">
@@ -43,7 +42,7 @@ const AdminCardSection1 = (props) => {
             <MDBCardBody>
               <div className="progress">
                 <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar bg-primary" role="progressbar"
-                  style={{ width: `${100 - disponivel}%` }}></div>
+                  style={{ width: `${disponivel}%` }}></div>
               </div>
               <MDBCardText>Limite da conta: R${props.conta.limite.toFixed(2)} ({disponivel}%)</MDBCardText>
             </MDBCardBody>

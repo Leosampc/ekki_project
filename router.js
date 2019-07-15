@@ -66,7 +66,7 @@ router.get('/transferencias/:token', (req, res) => {//rota para retornar todas a
         
 })
 
-router.get('/transferencias/:usuario_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+router.get('/transferencias/usuario/:usuario_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByUsuarioId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -75,7 +75,7 @@ router.get('/transferencias/:usuario_id/:token', (req, res) => {//rota para reto
 
 })
 
-router.get('/transferencias/:conta_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
+router.get('/transferencias/conta/:conta_id/:token', (req, res) => {//rota para retornar todas as transferencias do bd
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByContaId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
@@ -87,6 +87,15 @@ router.get('/transferencias/:conta_id/:token', (req, res) => {//rota para retorn
 router.get('/transferencias/:conta_id/:order/:limit/:token', (req, res) => {//rota para retornar todas as transferencias do bd com limite de busca
     if (req.params.token && req.params.token == token) {//caso o token seja valido
         getMethods.transferenciasByContaId(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
+    } else {//caso seja invalido retornará o objeto de erro
+        res.json(error)
+    }
+
+})
+
+router.get('/transferencias/date/:conta_id/:start_date/:end_date/:token', (req, res) => {//rota para retornar todas as transferencias do bd com limite de busca
+    if (req.params.token && req.params.token == token) {//caso o token seja valido
+        getMethods.transferenciasByDateRange(req, res)//chama o metodo get "transferencias" e envia o req e res por parametro
     } else {//caso seja invalido retornará o objeto de erro
         res.json(error)
     }

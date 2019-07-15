@@ -62,7 +62,7 @@ class TransferenciaPage extends React.Component {
   submitForm(event) {
     event.preventDefault();
     let usuario_id = this.props.usuario.id
-    if (parseFloat(this.state.valorTransferencia) > 0 || this.state.descricaoTransferencia.trim().length < 1) {
+    if (parseFloat(this.state.valorTransferencia) > 0 && this.state.descricaoTransferencia.trim().length > 1) {
       axios.post(`/api/transferencia/${token}`, {
         descricao: this.state.descricaoTransferencia,
         valor: parseFloat(this.state.valorTransferencia),
@@ -91,7 +91,7 @@ class TransferenciaPage extends React.Component {
         })
     } else {
       this.setState({
-        modalErroMensagem: "Campos em branco ou errado, favor tentar novamente."
+        modalErroMensagem: "Campos em branco ou errados, favor tentar novamente."
       }, () => {
         this.setStateModal("modalErro", true)
       })
@@ -104,7 +104,7 @@ class TransferenciaPage extends React.Component {
     } else {
       let saldo = parseFloat(this.props.contas[this.props.conta].saldo)
       let limite = parseFloat(this.props.contas[this.props.conta].limite)
-      let disponivel = (saldo >= 0) ? 100 : parseInt((saldo * -1) / limite * 100)
+      let disponivel = (saldo >= 0) ? 100 : 100 - parseInt((saldo * -1) / limite * 100)
       return (
         <React.Fragment>
           <BreadcrumSection page="Favorecidos" contas={this.props.contas} conta={this.props.conta} changeConta={this.props.changeConta} />
@@ -154,7 +154,7 @@ class TransferenciaPage extends React.Component {
                       <div style={{ display: `${this.state.displayFinalForm}` }}>
                         <MDBInput
                           label="Descricao"
-                          icon="hand-holding-usd"
+                          icon="comment"
                           group
                           type="text"
                           validate
@@ -198,7 +198,7 @@ class TransferenciaPage extends React.Component {
                 <MDBCardBody>
                   <div className="progress">
                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar bg-primary" role="progressbar"
-                      style={{ width: `${100 - disponivel}%` }}></div>
+                      style={{ width: `${disponivel}%` }}></div>
                   </div>
                   <MDBCardText>Limite da conta: R${this.props.contas[this.props.conta].limite.toFixed(2)} ({disponivel}%)</MDBCardText>
                 </MDBCardBody>
