@@ -5,12 +5,13 @@ import DashboardPage from './pages/DashboardPage'
 import FavorecidosPage from './pages/FavorecidosPage'
 import ExtratoPage from './pages/ExtratoPage'
 import TransferenciaPage from './pages/TransferenciaPage'
-import NotFoundPage from './pages/NotFoundPage'
 
 const md5 = require('md5')
 
 const todayDate = new Date().toISOString().slice(0, 10);
 const token = md5(todayDate)
+
+const id_user = 1; //id do usuário logado
 
 class Routes extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class Routes extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/usuario/1/${token}`)
+    axios.get(`/api/usuario/${id_user}/${token}`)
       .then(res => {
         this.setState({ usuario: res.data }, (state) => {
           axios.get(`/api/conta/usuario/${this.state.usuario.id}/${token}`)
